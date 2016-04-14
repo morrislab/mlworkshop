@@ -1,0 +1,70 @@
+575x271: genes by flow cells
+  We cluster by genes to find similar expression profiles that change over time
+  A01 through H12 -- these are indexing primers -- so, 96-well plate
+    0, 24, 28, 48, 72h
+  I log-transformed the data, as in the Vignette primer, and had good clustering results
+    
+Should we be doing classification on ClinVar?
+  Is it worth doing toy examples for clustering, or just jump right to Sincell?
+
+Multiple cell types -- not just morphology, or surface markers -- but based on transcriptional profile
+  Idea: identify subsets of celltype groups
+    Four timepoints, each of which may have subclasses -- that's why we do clustering
+    Idea: cells are changing within time, so cells at same timepoints should cluster together
+    In general: in single-cell, we want to group cells to represent cell-type groups
+  Assume you didn't have timepoints -- you got bunch of cells, wanted to cluster & find patterns
+    We don't want to condition on the timepoints -- goal: do clustering to find 
+    We cluster on feature vector for each cell
+      Two cells are similar if the overall expression of all genes are siilar
+
+    We have 100 cells or 100 timepoints
+      We want to cluster these 100 timepoints based on their expression
+      All cell types where gene A was high will group together, and all where they're low will group together
+    To visualize, we project timepoints as colour -- so, those that cluster together have similar colours
+      How do we indicate what cluster each came from?
+        Can have two side-by-side plots -- first is for true clustering (timepoints), second is the clustering you observed
+
+    We need to show clusteirng quality -- use mutual information?
+      Intrinsic measure: want to see internal modularity is high as measure of clustering quality
+        May compute overall edges of weight inside the cluster versus outside the cluster
+        Different clustering algorithms optimize different measures -- so, we want to sanity check via a different measure than the one that we optimized
+      Extrinsic measure: do you match the ground truth?
+      Another measure: stability -- if I perturb input distance matrix, how stable are the clusters?
+        This is important for stochastic methods
+        Even for deterministic methods, must evaluate how changes in input space change the output space
+
+Some clustering algorithms are soft, some are hierarchical, some are deterministic, etc.
+  We suggest features of the algorithms, and people can decide based on that
+  Ivan: use adjusted mutual information to evaluate the clustering
+
+We should do a brief intro -- what is supervised learning? unsupervised? reinforcement learning?
+  First session:
+    Cover data preprocessing in this as well
+    30-45 mins for dimensionality reduction
+      DR helps identify if there's underlying clustering, and to preprocess data to perform clustering
+    75 mins for clustering and dimensionality reduction
+    15 minute break
+    90 mins for supervised techniques
+
+  Two sessions of two hours
+    Second session: SVM, SVR
+    Regression, logistic regiression
+    Decision trees, regression trees
+
+We'll have this workshop in big lecture hall at the moment -- but we might get a computer lab
+  With notebooks, people can follow along with what we're doing on a cell-by-cell basis
+  Previous structure:
+    One instructor talking, two moving around to help resolve problems as they arise
+    If detailed question about one algorithm: ask the presenter
+      If question about the particular example, ask the person helping with examples
+
+  If people are running notebooks interactively, they must be able to follow along -- code can't take too long
+    Can we have master hosted notebook, so people don't have to install the dependencies?
+    Can we have the notebooks check via a certain cell to see if people have all the dependencies they need?
+  
+There's also a notebooks workshop at GLBIO
+  We're maxed out at 90 attendees for the workshop
+
+Ivan: we have too much material now
+  After we've developed, review it and see how well it fits together
+  To understand the concept, we don't necessarily need to present all the algorithms
