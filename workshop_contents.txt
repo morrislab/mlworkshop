@@ -1,0 +1,31 @@
+﻿Session 1: Dim. Red.& Clustering
+1. DR::
+   1. PCA
+   2. ICA
+   3. t-SNE
+   4. MDS
+1. Clustering
+   1. K-means
+   2. GMM
+   3. DP
+   4. Extension to overlapping clusters
+
+
+Session 2: Regression & Classification
+   1. Linear regr (assumptions: error model, variance, … )/Log. Regr
+   2. Kernel method
+   3. SVR/SVM
+   4. Random Forest Reg/Class.
+                
+IK: I think we also need to consider parameter tuning / cross validation. Maybe that is something to do in the end of section 2? If so, the outline for the second section would be:
+Session 2: Systematic validation + Regression & Classification
+1. Regression
+1. Linear regr (assumptions: error model, variance, … )/Log. Regr
+   1. Kernel method
+   2. SVR/SVM
+   3. Random Forest Reg/Class.
+1. Cross-validation
+   1. Training / testing
+   2. Cross-validation
+   3. Parameter tuning
+If we do this, we have a natural progression of exploratory analysis -> unsupervised -> supervised -> systematic validation.
