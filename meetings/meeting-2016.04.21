@@ -1,0 +1,6 @@
+Material: Udacity -- good supervised section
+  45 minutes: Parametric model selection
+    DP-based clustering: at least 30 minutes
+    "This is GMM. You don't know how many components you have -- this is how you extend to an infinite number of GMMs. This is the implementation of that, this is how you use it."
+
+Notebooks should be self-sufficient, and should include running the notebook code from the beginning to the end
