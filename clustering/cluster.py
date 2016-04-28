@@ -4,27 +4,35 @@ import numpy as np
 import sklearn.decomposition
 import sklearn.cluster
 import sklearn.mixture
+import sklearn.metrics
 
 import plotly
 import plotly.tools as pyt
 import plotly.plotly as py
 import plotly.graph_objs as go
 
-def load_exprmat():
-  robjects.r['load']('ExpressionMatrix.rda')
+def load_exprmat(exprmat_fn):
+  robjects.r['load'](exprmat_fn)
   exprmat = robjects.r('ExpressionMatrix')
   colnames = list(exprmat.colnames)
   rownames = list(exprmat.rownames)
-  return (np.array(exprmat), colnames, rownames)
+
+  exprmat = np.array(exprmat)
+  # Add 1 to avoid taking log(0).
+  exprmat = np.log(exprmat + 1)
+  exprmat = exprmat.T
+
+  return (exprmat, colnames, rownames)
 
 def plot(cluster_alg, points, clusters, timepoints, labels):
+  colour_scale = 'Viridis'
   scatter1 = go.Scatter(
     x = points[:,0],
     y = points[:,1],
     mode = 'markers',
     marker = {
       'color': clusters,
-      'colorscale': 'Viridis',
+      'colorscale': colour_scale,
     },
     text = labels
   )
@@ -34,22 +42,22 @@ def plot(cluster_alg, points, clusters, timepoints, labels):
     mode = 'markers',
     marker = {
       'color': timepoints,
-      'colorscale': 'Viridis',
+      'colorscale': colour_scale,
     },
     text = labels
   )
   data = go.Data([scatter1, scatter2])
 
-  fig = pyt.make_subplots(rows=1, cols=2, subplot_titles=('Clusters', 'Timepoints'))
+  fig = pyt.make_subplots(rows=1, cols=2, subplot_titles=('Clusters', 'Timepoints'), print_grid=False)
   fig.append_trace(scatter1, 1, 1)
   fig.append_trace(scatter2, 1, 2)
-  fig['layout'].update(title='Comparing clusering via %s to ground truth' % cluster_alg, showlegend=False)
+  n_clusters = len(set(clusters))
+  fig['layout'].update(title='Comparing clusering via %s to ground truth (%s clusters)' % (cluster_alg, n_clusters), showlegend=False)
   for idx in range(1, 3):
     fig['layout']['xaxis%s' % idx].update(title='Component 1')
     fig['layout']['yaxis%s' % idx].update(title='Component 2')
 
   layout = go.Layout(
-    title = 'Gene expression levels',
     hovermode = 'closest',
     xaxis = {
       'title': 'Component 1',
@@ -66,8 +74,9 @@ def plot(cluster_alg, points, clusters, timepoints, labels):
     }
   )
 
-  #figure = go.Figure(data=data, layout=layout)
-  plotly.offline.plot(fig, filename='%s.html' % cluster_alg.lower())
+  #plotly.offline.plot(fig, filename='%s.html' % cluster_alg.lower())
+  plotly.offline.init_notebook_mode()
+  plotly.offline.iplot(fig)
 
 def cluster_kmeans(points):
   preds = sklearn.cluster.KMeans(n_clusters=4).fit_predict(points)
@@ -76,6 +85,20 @@ def cluster_kmeans(points):
 def cluster_gmm(points):
   preds = sklearn.mixture.GMM(n_components=4).fit_predict(points)
   return preds
+
+def cluster_dpgmm(points):
+  preds = sklearn.mixture.DPGMM(n_components=100, alpha=0.5).fit_predict(points)
+  return preds
+
+def eval_clustering(truth, clustering):
+  score_funcs = [
+    sklearn.metrics.adjusted_rand_score,
+    sklearn.metrics.v_measure_score,
+    sklearn.metrics.adjusted_mutual_info_score,
+    sklearn.metrics.mutual_info_score,
+  ]
+  for score_func in score_funcs:
+    print(score_func.__name__, score_func(truth, clustering), sep='\t')
 
 def reduce_dimensionality(exprmat):
   pca = sklearn.decomposition.PCA(n_components=2)
@@ -90,19 +113,19 @@ def get_timepoints(samples):
   timepoints = [timepoint_map[tp] for tp in timepoints]
   return timepoints
 
-def main():
-  exprmat, samples, genes = load_exprmat()
-  # Add 1 to avoid taking log(0).
-  exprmat = np.log(exprmat + 1)
-  exprmat = exprmat.T
+def cluster_and_plot(points, truth, labels, cluster_alg):
+  projected = reduce_dimensionality(points)
+  clusters = cluster_alg(points)
+  eval_clustering(truth, clusters)
+  plot(cluster_alg.__name__, projected, clusters, truth, labels)
 
-  projected = reduce_dimensionality(exprmat)
+def main():
+  exprmat, samples, genes = load_exprmat('ExpressionMatrix.rda')
   timepoints = get_timepoints(samples)
 
-  clusters_kmeans = cluster_kmeans(projected)
-  clusters_gmm = cluster_gmm(projected)
+  for cluster_alg in (cluster_kmeans, cluster_gmm, cluster_dpgmm):
+    print(cluster_alg.__name__)
+    cluster_and_plot(exprmat, timepoints, samples, cluster_alg)
 
-  plot('kmeans', projected, clusters_kmeans, timepoints, samples)
-  plot('GMM', projected, clusters_gmm, timepoints, samples)
-
-main()
+if __name__ == '__main__':
+  main()
