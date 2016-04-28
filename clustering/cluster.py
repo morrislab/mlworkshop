@@ -1,5 +1,4 @@
 from __future__ import print_function
-import rpy2.robjects as robjects
 import numpy as np
 import sklearn.decomposition
 import sklearn.cluster
@@ -11,18 +10,22 @@ import plotly.tools as pyt
 import plotly.plotly as py
 import plotly.graph_objs as go
 
+import os
+
 def load_exprmat(exprmat_fn):
-  robjects.r['load'](exprmat_fn)
-  exprmat = robjects.r('ExpressionMatrix')
-  colnames = list(exprmat.colnames)
-  rownames = list(exprmat.rownames)
+  rows = []
+  rownames = []
 
-  exprmat = np.array(exprmat)
-  # Add 1 to avoid taking log(0).
-  exprmat = np.log(exprmat + 1)
-  exprmat = exprmat.T
+  with open(exprmat_fn) as exprmat:
+    colnames = next(exprmat).strip().split(',')
+    for row in exprmat:
+      fields = row.split(',')
+      rownames.append(fields[0])
+      rows.append([float(f) for f in fields[1:]])
 
-  return (exprmat, colnames, rownames)
+  data = np.array(rows)
+  print(data.shape)
+  return (data, colnames, rownames)
 
 def plot(cluster_alg, points, clusters, timepoints, labels):
   colour_scale = 'Viridis'
@@ -120,7 +123,7 @@ def cluster_and_plot(points, truth, labels, cluster_alg):
   plot(cluster_alg.__name__, projected, clusters, truth, labels)
 
 def main():
-  exprmat, samples, genes = load_exprmat('ExpressionMatrix.rda')
+  exprmat, genes, samples = load_exprmat(os.path.dirname(__file__) + '../data/expression_matrix.csv')
   timepoints = get_timepoints(samples)
 
   for cluster_alg in (cluster_kmeans, cluster_gmm, cluster_dpgmm):
