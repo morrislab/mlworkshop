@@ -45,8 +45,6 @@ def make_variants(vcf_filename):
     add_bool(var, variant, 'R5')
 
     variants[clnsig].append(var)
-    if cnt > 500:
-        break
 
   return variants
 
@@ -121,23 +119,18 @@ def vectorize_variants(variants):
     vectorized_vars[clnsig] = vectorizer.transform(vars)
     continue
     for idx, var in enumerate(vars):
-      if 'conservation' not in var:
-        print(vectorizer.feature_names_)
-        print(var)
-        print(vectorized_vars[clnsig][idx])
+      print(vectorizer.feature_names_)
+      print(var)
+      print(vectorized_vars[clnsig][idx])
 
   return vectorized_vars
 
-def predict(models, data):
-  predictions = []
-  for model_type, model in models:
-    predictions.append(model.predict_proba(data)[:,1])
-  summed = reduce(lambda a, b: a + b, predictions)
-  return summed / len(models)
+def predict(model, data):
+  return model.predict_proba(data)[:,1]
 
 def create_models():
   models = (
-    ('Logistic regression', sklearn.linear_model.LogisticRegression(class_weight='balanced')),
+    ('Logistic regression', sklearn.linear_model.LogisticRegression(class_weight='balanced', penalty='l2')),
     ('Random forest', sklearn.ensemble.RandomForestClassifier(n_estimators=100, n_jobs=16)),
     ('SVM', sklearn.svm.SVC(probability=True)),
   )
@@ -151,10 +144,9 @@ def concat_training_data(variants):
   labels = np.concatenate((labels_pathogenic, labels_benign))
   return (vars, labels)
 
-def train_model(variants):
+def train_model(variants, model):
   vars, labels = concat_training_data(variants)
   skf = sklearn.cross_validation.StratifiedKFold(labels, n_folds=3, shuffle=True)
-  models = create_models()
 
   shape = labels.shape
   validation_probs = np.zeros(shape)
@@ -169,15 +161,13 @@ def train_model(variants):
     validation_fold_probs = np.zeros(validation_labels.shape)
     training_fold_probs   = np.zeros(training_labels.shape)
 
-    for model_type, model in models:
-      logmsg('  Training %s ...' % model_type)
-      model.fit(training_data, training_labels)
+    model.fit(training_data, training_labels)
 
-    validation_fold_probs = predict(models, validation_data)
+    validation_fold_probs = predict(model, validation_data)
     validation_probs[validation_index] += validation_fold_probs
     validation_times_used[validation_index] += 1
 
-    training_fold_probs = predict(models, training_data)
+    training_fold_probs = predict(model, training_data)
     training_probs[train_index] += training_fold_probs
     # This should always be n_folds - 1, but I track it to be sure this
     # assumption is correct.
@@ -192,14 +182,16 @@ def train_model(variants):
   return (labels, training_probs, validation_probs)
 
 def evaluate_model(variants):
-  labels, training_probs, validation_probs = train_model(variants)
+  for model_type, model in create_models():
+    print('Training %s ...' % model_type)
+    labels, training_probs, validation_probs = train_model(variants, model)
 
-  probs = validation_probs
-  metrics = {}
-  metrics['roc_auc'] = sklearn.metrics.roc_auc_score(labels, probs)
-  metrics['pr_auc'] = sklearn.metrics.average_precision_score(labels, probs)
-  metrics['f1'] = sklearn.metrics.f1_score(labels, np.round(probs))
-  print(metrics)
+    probs = validation_probs
+    metrics = {}
+    metrics['roc_auc'] = sklearn.metrics.roc_auc_score(labels, probs)
+    metrics['pr_auc'] = sklearn.metrics.average_precision_score(labels, probs)
+    metrics['f1'] = sklearn.metrics.f1_score(labels, np.round(probs))
+    print(metrics)
 
 def logmsg(msg, fd=sys.stdout):
   now = datetime.now()
