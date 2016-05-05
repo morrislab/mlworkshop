@@ -22,7 +22,9 @@ def make_variants(vcf_filename):
     attribs[key.lower()] = key in variant.INFO and variant.INFO[key] == True
 
   # http://www.ncbi.nlm.nih.gov/variation/docs/human_variation_vcf/#clinvar
-  vcfr = vcf.Reader(filename=vcf_filename)
+  # Encoding must be specified to prevent UnicodeDecodeError. See
+  # https://github.com/jamescasbon/PyVCF/issues/201.
+  vcfr = vcf.Reader(filename=vcf_filename, encoding='utf-8')
   cnt = 0
   for variant in vcfr:
     cnt += 1
