@@ -102,9 +102,9 @@ def impute_missing(variants):
       if 'MAF' in var:
         mafs.append(var['MAF'])
 
-  #missing_maf = np.mean(mafs)
+  missing_maf = np.mean(mafs)
   # Best values
-  missing_maf = 1.0
+  #missing_maf = 1.0
 
   for label, vars in variants.items():
     for var in vars:
@@ -113,17 +113,14 @@ def impute_missing(variants):
 
 def vectorize_variants(variants):
   vectorizer = sklearn.feature_extraction.DictVectorizer(sparse=False)
+  # List all variants (which are dictionaries) in single list regardless of
+  # what class (pathogenic, benign, ...) they fall in.
   all_vars = reduce(lambda a, b: a + b, variants.values())
   vectorizer.fit(all_vars)
 
   vectorized_vars = {}
   for clnsig, vars in variants.items():
     vectorized_vars[clnsig] = vectorizer.transform(vars)
-    continue
-    for idx, var in enumerate(vars):
-      print(vectorizer.feature_names_)
-      print(var)
-      print(vectorized_vars[clnsig][idx])
 
   return vectorized_vars
 
@@ -227,4 +224,5 @@ def main():
 
   evaluate_model(variants)
 
-main()
+if __name__ == '__main__':
+  main()
