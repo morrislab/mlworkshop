@@ -27,16 +27,16 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
      inkscape:cx="-402.73162"
-     inkscape:cy="-784.35006"
+     inkscape:cy="-1010.6242"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:window-width="1916"
-     inkscape:window-height="951"
+     inkscape:window-height="1005"
      inkscape:window-x="0"
-     inkscape:window-y="108"
+     inkscape:window-y="54"
      inkscape:window-maximized="0">
     <sodipodi:guide
        position="-569.28572,-902.85716"
@@ -1674,25 +1674,6 @@
          sodipodi:nodetypes="czzzc"
          inkscape:export-xdpi="54.48"
          inkscape:export-ydpi="54.48" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-1165.3982"
-         y="2231.5737"
-         id="text5419"
-         sodipodi:linespacing="125%"
-         inkscape:export-xdpi="54.48"
-         inkscape:export-ydpi="54.48"><tspan
-           sodipodi:role="line"
-           x="-1165.3982"
-           y="2231.5737"
-           style="font-size:21.25px;text-align:end;text-anchor:end"
-           id="tspan5421">Decision boundary</tspan><tspan
-           id="tspan5423"
-           sodipodi:role="line"
-           x="-1165.3982"
-           y="2258.1362"
-           style="font-size:21.25px;text-align:end;text-anchor:end">(status = 0.5)</tspan></text>
       <circle
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ca3333;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
          id="circle5431"
