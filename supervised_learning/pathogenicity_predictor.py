@@ -16,6 +16,37 @@ import sklearn.svm
 from datetime import datetime
 import sys
 
+import plotly
+import plotly.tools as pyt
+import plotly.plotly as py
+import plotly.graph_objs as go
+
+def plot_line_graph(xvals, yvals, title, xtitle, ytitle):
+  colour_scale = 'RdYlBu'
+  scatter = go.Scatter(
+    x = xvals,
+    y = yvals,
+    mode = 'lines',
+    name='lines',
+  )
+
+  layout = go.Layout(
+    title = title,
+    hovermode = 'closest',
+    xaxis = {
+      'title': xtitle,
+    },
+    yaxis = {
+      'title': ytitle,
+    }
+  )
+
+  data = go.Data([scatter])
+  fig = go.Figure(data=data, layout=layout)
+  #plotly.offline.plot(fig, filename=outfname)
+  plotly.offline.init_notebook_mode()
+  plotly.offline.iplot(fig)
+
 def make_variants(vcf_filename):
   variants = defaultdict(list)
   def add_bool(attribs, variant, key):
@@ -28,6 +59,8 @@ def make_variants(vcf_filename):
   cnt = 0
   for variant in vcfr:
     cnt += 1
+    if cnt > 1000 and False:
+      break
     var = {}
     clnsig = tuple(variant.INFO['CLNSIG'])
     if 'CAF' in variant.INFO:
@@ -129,13 +162,16 @@ def predict(model, data):
 
 def create_models():
   models = (
-    ('Logistic regression', sklearn.linear_model.LogisticRegression(class_weight='balanced', penalty='l2')),
-    ('Random forest', sklearn.ensemble.RandomForestClassifier(n_estimators=100, n_jobs=16)),
-    ('SVM', sklearn.svm.SVC(probability=True)),
+    ('Logistic regression', sklearn.linear_model.LogisticRegression(n_jobs=1, solver='liblinear', penalty='l2')),
+    #('Random forest', sklearn.ensemble.RandomForestClassifier(n_estimators=100, n_jobs=16)),
+    #('SVM', sklearn.svm.SVC(probability=True)),
   )
   return models
 
 def concat_training_data(variants):
+  to_keep = 1000
+  variants['pathogenic'] = variants['pathogenic'][:to_keep,:]
+  variants['benign'] = variants['benign'][:to_keep,:]
   # Labels: 1=pathogenic, 0=benign
   vars = np.vstack((variants['pathogenic'], variants['benign']))
   labels_pathogenic = np.ones(variants['pathogenic'].shape[0])
@@ -180,17 +216,43 @@ def train_model(variants, model):
 
   return (labels, training_probs, validation_probs)
 
-def evaluate_model(variants):
-  for model_type, model in create_models():
-    print('Training %s ...' % model_type)
-    labels, training_probs, validation_probs = train_model(variants, model)
+def partition_into_training_and_test(vars, labels, training_proportion):
+  num_vars = vars.shape[0]
+  num_training = int(np.round(training_proportion * num_vars))
 
-    probs = validation_probs
-    metrics = {}
-    metrics['roc_auc'] = sklearn.metrics.roc_auc_score(labels, probs)
-    metrics['pr_auc'] = sklearn.metrics.average_precision_score(labels, probs)
-    metrics['f1'] = sklearn.metrics.f1_score(labels, np.round(probs))
-    print(metrics)
+  indices = np.arange(num_vars)
+  np.random.shuffle(indices)
+  training_indices, test_indices = indices[:num_training], indices[num_training:]
+
+  return (vars[training_indices], vars[test_indices], labels[training_indices], labels[test_indices])
+
+def eval_performance(labels, pathogenicity_probs):
+  metrics = {}
+  metrics['accuracy'] = sklearn.metrics.accuracy_score(labels, pathogenicity_probs >= 0.5)
+  metrics['roc_auc'] = sklearn.metrics.roc_auc_score(labels, pathogenicity_probs)
+  metrics['pr_auc'] = sklearn.metrics.average_precision_score(labels, pathogenicity_probs)
+  metrics['f1'] = sklearn.metrics.f1_score(labels, np.round(pathogenicity_probs))
+  print(metrics)
+
+  precision, recall, thresholds = sklearn.metrics.precision_recall_curve(labels, pathogenicity_probs)
+  fpr, tpr, thresholds = sklearn.metrics.roc_curve(labels, pathogenicity_probs)
+  plot_line_graph(
+    fpr,
+    tpr,
+    'ROC curve for logistic regression (AUC = %.3f)' % metrics['roc_auc'],
+    'FPR',
+    'TPR'
+  )
+  return
+  plot_line_graph(
+    recall,
+    precision,
+    'Precision-recall for logistic regression (AUC = %.3f)' % metrics['pr_auc'],
+    'Precision',
+    'Recall'
+  )
+
+  return metrics['accuracy']
 
 def logmsg(msg, fd=sys.stdout):
   now = datetime.now()
