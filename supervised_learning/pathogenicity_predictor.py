@@ -21,13 +21,14 @@ import plotly.tools as pyt
 import plotly.plotly as py
 import plotly.graph_objs as go
 
-def plot_line_graph(xvals, yvals, title, xtitle, ytitle):
+def plot_line_graph(xvals, yvals, title, xtitle, ytitle, labels=None):
   colour_scale = 'RdYlBu'
   scatter = go.Scatter(
     x = xvals,
     y = yvals,
     mode = 'lines',
     name='lines',
+    text=labels
   )
 
   layout = go.Layout(
@@ -35,9 +36,11 @@ def plot_line_graph(xvals, yvals, title, xtitle, ytitle):
     hovermode = 'closest',
     xaxis = {
       'title': xtitle,
+      'range': (0, 1),
     },
     yaxis = {
       'title': ytitle,
+      'range': (0, 1),
     }
   )
 
@@ -169,9 +172,9 @@ def create_models():
   return models
 
 def concat_training_data(variants):
-  to_keep = 1000
-  variants['pathogenic'] = variants['pathogenic'][:to_keep,:]
-  variants['benign'] = variants['benign'][:to_keep,:]
+  #to_keep = 1000
+  #variants['pathogenic'] = variants['pathogenic'][:to_keep,:]
+  #variants['benign'] = variants['benign'][:to_keep,:]
   # Labels: 1=pathogenic, 0=benign
   vars = np.vstack((variants['pathogenic'], variants['benign']))
   labels_pathogenic = np.ones(variants['pathogenic'].shape[0])
@@ -248,8 +251,8 @@ def eval_performance(labels, pathogenicity_probs):
     recall,
     precision,
     'Precision-recall for logistic regression (AUC = %.3f)' % metrics['pr_auc'],
-    'Precision',
-    'Recall'
+    'Recall',
+    'Precision'
   )
 
   return metrics['accuracy']
@@ -265,7 +268,7 @@ def logmsg(msg, fd=sys.stdout):
 logmsg.last_log = None
 
 def main():
-  np.set_printoptions(threshold=np.nan)
+  #np.set_printoptions(threshold=np.nan)
   np.random.seed(1)
 
   parser = argparse.ArgumentParser(
