@@ -1,0 +1,34 @@
+Include references for further reading
+Add synthetic dataset for clustering
+Have people run simple algorithm as we talk, then have them try different examples
+⎈
+
+Anaconda
+  SkLearn
+  Pandas
+Plotly
+PyVCF
+
+Mention what packages to install, but emphasize 
+Also provide the PDFs for the notebooks⎈⎈
+
+Do post-its
+
+I will do SVMs
+Ivan will do random forests
+
+Jeff:
+  SVMs
+  Force overfitting -- maybe only use pathogenic
+
+Ivan:
+  Do random forests
+
+Clustering:
+  Synthetic dataset
+  Intrinsic vs. extrinsic
+
+Sueprvised:
+  EM GMMs
+  K-means
+
