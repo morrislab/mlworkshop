@@ -3,14 +3,13 @@
 ## Outline
 
 This workshop covers biological applications of dimensionality reduction,
-clustering, and supervised learning. All examples are built around
-[scikit-learn](http://scikit-learn.org).
+clustering, and supervised learning.
 
 Each topic is presented in its own Jupyter notebook.
 
 1. [Dimensionality reduction](dimensionality_reduction/Dimensionality_reduction.ipynb)
 2. [Clustering](clustering/Clustering.ipynb)
-3. [supervised_learning](supervised_learning/Supervised_learning.ipynb)
+3. [Supervised learning](supervised_learning/Supervised_learning.ipynb)
 
 
 ## Prerequisites
@@ -34,5 +33,8 @@ If you're an advanced user who is not using Anaconda, install the following pack
   University of Toronto in the [Morris lab](http://www.morrislab.ca/). Jeff's
   research focuses on tumor heterogeneity and cancer evolution.
 
+* [Shahin Mohammadi](https://www.cs.purdue.edu/homes/mohammas/) is a PhD
+  candidate at Purdue. Shahin was gracious in providing advice on the workshop
+  throughout its development.
 
 ## Helpers
