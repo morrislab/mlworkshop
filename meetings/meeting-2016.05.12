@@ -1,0 +1,27 @@
+Include references for further reading
+Add synthetic dataset for clustering
+Have people run simple algorithm as we talk, then have them try different examples
+
+
+Also provide the PDFs for the notebooks
+
+TODO:
+  Ivan:
+    Do random forests
+    Write Python intro
+
+  Me:
+    Clustering:
+      Synthetic dataset
+      EM GMM
+      Intrinsic vs. extrinsic means of evaluating
+    Sueprvised:
+      Make it overfit somehow
+      Write SVMs
+    Get Post-its
+    Add references for further reading
+    ⎈⎈
+
+  Send out installation instructinos
+    Prefer Anaconda
+    But otherwise just list package names for people who know what they're doing
