@@ -18,7 +18,7 @@ Each topic is presented in its own Jupyter notebook.
 
 To install Python and the associated packages necessary to use these notebooks, the easiest option is to use [Anaconda](https://www.continuum.io/downloads). We recommend using the most recent version, which is currently Anaconda for Python 3.5.
 
-### Manual installation (advancd users)
+### Manual installation (advanced users)
 
 If you're an advanced user who is not using Anaconda, install the following packages:
 
