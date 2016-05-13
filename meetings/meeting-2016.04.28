@@ -1,0 +1,31 @@
+Include crash course on Python -- no more than ten minutes
+  Maybe cover Pandas as well
+
+I did Software Carpentry workshop
+  Roaming helpers
+  Sticky notes
+  Instructor pauses
+    Ivan: Maybe have people change what algorithm they're using for dimensionality reduction or clustering -- that would be the interactive part
+
+Intrinsic measures:
+  Two measures as objective function -- q modularity, conductancekd
+  Modularity: whole group of algorithms based on maximizing modularity
+    Bounded between -1/2 and 1
+  PNAS paper points out one problem with modularity
+    New class of algorithms came out to fix this problem
+    New group of algorithms combined optimization with hierarchical structure -- fixes problem with q-modularity
+
+Ivan: early cells are much more distinguished from each other than later ones
+  After 48 h, the cells are more distinguished from each other
+  Cell type: myoblasts
+
+Compare results to the Sincell vignette
+
+Two constraints already expressed on data we're using:
+  Nonzero in >50 cells -- otherwise discard
+  Genes must also be differentially be expressed -- q < 0.01
+
+Shain: for classification, we should use DREAM Challenge drug sensitivity produciton data
+  We can provide this data openly -- Shain checked
+Ivan: we should do small writeup about what each dataset means
+  I should list what features we use, and how they've been determined -- "we use this annotation pipeline", whatever
