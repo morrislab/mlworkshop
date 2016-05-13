@@ -24,11 +24,10 @@ def load_exprmat(exprmat_fn):
       rows.append([float(f) for f in fields[1:]])
 
   data = np.array(rows)
-  print(data.shape)
   return (data, colnames, rownames)
 
-def plot(cluster_alg, points, clusters, timepoints, labels):
-  colour_scale = 'Viridis'
+def plot_expression(cluster_alg, points, clusters, timepoints, labels):
+  colour_scale = 'RdYlBu'
   scatter1 = go.Scatter(
     x = points[:,0],
     y = points[:,1],
@@ -81,15 +80,20 @@ def plot(cluster_alg, points, clusters, timepoints, labels):
   plotly.offline.init_notebook_mode()
   plotly.offline.iplot(fig)
 
-def cluster_kmeans(points):
-  preds = sklearn.cluster.KMeans(n_clusters=4).fit_predict(points)
+def cluster_kmeans(points, nclusters):
+  preds = sklearn.cluster.KMeans(n_clusters=nclusters).fit_predict(points)
   return preds
 
-def cluster_gmm(points):
-  preds = sklearn.mixture.GMM(n_components=4).fit_predict(points)
+def cluster_gmm(points, nclusters):
+  preds = sklearn.mixture.GMM(n_components=nclusters).fit_predict(points)
   return preds
 
-def cluster_dpgmm(points):
+def cluster_agglomerative(points, nclusters):
+  preds = sklearn.cluster.AgglomerativeClustering(linkage='ward', n_clusters=nclusters).fit_predict(points)
+  return preds
+
+def cluster_dpgmm(points, nclusters):
+  # We ignore nclusters here.
   preds = sklearn.mixture.DPGMM(n_components=100, alpha=0.5).fit_predict(points)
   return preds
 
@@ -105,30 +109,98 @@ def eval_clustering(truth, clustering):
 
 def reduce_dimensionality(exprmat):
   pca = sklearn.decomposition.PCA(n_components=2)
-  projected = pca.fit(exprmat).transform(exprmat)
-  print('Explained variance ratio: %s' % pca.explained_variance_ratio_)
+  #tsne = sklearn.manifold.TSNE(n_components=2)
+  projected = pca.fit_transform(exprmat)
+  print('Explained variance ratio: %s %s' % (np.sum(pca.explained_variance_ratio_), pca.explained_variance_ratio_))
   return projected
 
 def get_timepoints(samples):
   timepoints = [samp.split('_')[0] for samp in samples]
+  #timepoints = [t == 'T0' and 'T0' or 'T1' for t in timepoints]
+  #print(timepoints)
   keys, values = sorted(set(timepoints), key=lambda tp: int(tp[1:])), range(len(set(timepoints)))
   timepoint_map = dict(zip(keys, values))
   timepoints = [timepoint_map[tp] for tp in timepoints]
   return timepoints
 
-def cluster_and_plot(points, truth, labels, cluster_alg):
+def cluster_and_plot(points, truth, labels, cluster_alg, nclusters):
   projected = reduce_dimensionality(points)
-  clusters = cluster_alg(points)
+  clusters = cluster_alg(points, nclusters=nclusters)
   eval_clustering(truth, clusters)
-  plot(cluster_alg.__name__, projected, clusters, truth, labels)
+  print('Silhouette', sklearn.metrics.silhouette_score(points, clusters))
+  #plot(cluster_alg.__name__, projected, clusters, truth, labels)
+
+def generate_simulated_points():
+  num_classes = 3
+  points_per_class = 40
+  points = np.zeros((num_classes * points_per_class, 2))
+  labels = np.zeros(num_classes * points_per_class)
+  means = [(-3, -2), (-2, -4), (3, 2)]
+  cov = np.eye(2)
+
+  for idx in range(num_classes):
+    rows = range(idx * points_per_class, (idx + 1) * points_per_class)
+    points[rows,:] = np.random.multivariate_normal(means[idx], cov, points_per_class)
+    labels[rows] = idx
+
+  idxs = np.random.permutation(np.arange(num_classes * points_per_class))
+  return (points[idxs,:], labels[idxs])
+
+def plot_simulated(points, preds, labels, cluster_alg):
+  colour_scale = 'Portland'
+  symbols = { 0: 'triangle-up', 1: 'cross', 2: 'star'}
+
+  data = []
+  for cls in symbols.keys():
+    idxs = np.where(labels == cls)[0]
+    scatter = go.Scatter(
+      name = 'Class %s' % cls,
+      x = points[idxs,0],
+      y = points[idxs,1],
+      mode = 'markers',
+      marker = {
+        'color': preds[idxs],
+        'symbol': symbols[cls],
+        'colorscale': colour_scale,
+      }
+    )
+    data.append(scatter)
+  data = go.Data(data)
+
+  title = ytitle = xtitle = 'pants'
+  layout = go.Layout(
+    title = 'Simulated data plotted via %s' % cluster_alg,
+    hovermode = 'closest',
+    xaxis = {
+      'title': 'x',
+    },
+    yaxis = {
+      'title': 'y',
+    }
+  )
+
+  fig = go.Figure(data=data, layout=layout)
+  plotly.offline.init_notebook_mode()
+  plotly.offline.iplot(fig)
+  #plotly.offline.plot(fig, filename='simulated.html')
+
+def run_simulated():
+  points, labels = generate_simulated_points()
+  preds = sklearn.cluster.KMeans(n_clusters=3).fit_predict(points)
+  preds = sklearn.mixture.GMM(n_components=3).fit_predict(points)
+  plot_simulated(points, preds, labels)
 
 def main():
+  run_simulated()
+  return
+
   exprmat, genes, samples = load_exprmat(os.path.dirname(__file__) + '../data/expression_matrix.csv')
   timepoints = get_timepoints(samples)
 
-  for cluster_alg in (cluster_kmeans, cluster_gmm, cluster_dpgmm):
+  for cluster_alg in (cluster_kmeans, cluster_gmm, cluster_dpgmm, cluster_agglomerative):
     print(cluster_alg.__name__)
-    cluster_and_plot(exprmat, timepoints, samples, cluster_alg)
+    cluster_and_plot(exprmat, timepoints, samples, cluster_alg, nclusters=4)
+    print()
 
 if __name__ == '__main__':
   main()
