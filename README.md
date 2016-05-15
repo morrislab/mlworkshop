@@ -50,6 +50,10 @@ If you're an advanced user who is not using Anaconda, install the following pack
 * [Nathan Bryans](http://nathanbryans.ca/) is a MSc student at the
   University of Calgary in the [de Koning lab](http://lab.jasondk.io/).
 
+* Chris Cremer is a PhD student at the University of Toronto in the [Morris
+  lab](http://www.morrislab.ca/). Chris' research focuses on tumour
+  deconvolution and protein structure prediction.
+
 * Kevin Ha is a PhD student at the University of Toronto in the [Morris
   lab](http://www.morrislab.ca/). Kevin's research focuses on 3'-end mRNA
   processing and alternative splicing.
@@ -63,4 +67,3 @@ If you're an advanced user who is not using Anaconda, install the following pack
   lab](http://baderlab.org/). Ahmad's research focuses on identifying
   regulatory regions and and exploring non-coding regions using machine
   learning.
-
