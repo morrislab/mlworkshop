@@ -7,9 +7,9 @@ clustering, and supervised learning.
 
 Each topic is presented in its own Jupyter notebook.
 
-1. [Dimensionality reduction](dimensionality_reduction/Dimensionality_reduction.ipynb)
-2. [Clustering](clustering/Clustering.ipynb)
-3. [Supervised learning](supervised_learning/Supervised_learning.ipynb)
+1. [Supervised learning](supervised_learning/Supervised_learning.ipynb)
+2. [Dimensionality reduction](dimensionality_reduction/Dimensionality_reduction.ipynb)
+3. [Clustering](clustering/Clustering.ipynb)
 
 
 ## Prerequisites
