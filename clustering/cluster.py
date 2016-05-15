@@ -167,7 +167,6 @@ def plot_simulated(points, preds, labels, cluster_alg):
     data.append(scatter)
   data = go.Data(data)
 
-  title = ytitle = xtitle = 'pants'
   layout = go.Layout(
     title = 'Simulated data plotted via %s' % cluster_alg,
     hovermode = 'closest',
@@ -183,6 +182,29 @@ def plot_simulated(points, preds, labels, cluster_alg):
   plotly.offline.init_notebook_mode()
   plotly.offline.iplot(fig)
   #plotly.offline.plot(fig, filename='simulated.html')
+
+def plot_line_chart(xvals, yvals, title, xtitle, ytitle):
+  scatter = go.Scatter(
+    x = xvals,
+    y = yvals,
+    mode = 'lines+markers',
+  )
+  data = go.Data([scatter])
+
+  layout = go.Layout(
+    title = title,
+    hovermode = 'closest',
+    xaxis = {
+      'title': xtitle,
+    },
+    yaxis = {
+      'title': ytitle,
+    }
+  )
+
+  fig = go.Figure(data=data, layout=layout)
+  plotly.offline.init_notebook_mode()
+  plotly.offline.iplot(fig)
 
 def run_simulated():
   points, labels = generate_simulated_points()
