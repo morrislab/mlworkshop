@@ -16,7 +16,10 @@ Each topic is presented in its own Jupyter notebook.
 
 ### Suggested installation
 
-To install Python and the associated packages necessary to use these notebooks, the easiest option is to use [Anaconda](https://www.continuum.io/downloads). We recommend using the most recent version, which is currently Anaconda for Python 3.5.
+To install Python and the associated packages necessary to use these notebooks,
+the easiest option is to use [Anaconda](https://www.continuum.io/downloads). We
+recommend using the most recent version, which is currently Anaconda for Python
+3.5.
 
 ### Manual installation (advanced users)
 
@@ -41,4 +44,23 @@ If you're an advanced user who is not using Anaconda, install the following pack
   candidate at Purdue. Shahin was gracious in providing advice on the workshop
   throughout its development.
 
+
 ## Helpers
+
+* [Nathan Bryans](http://nathanbryans.ca/) is a MSc student at the
+  University of Calgary in the [de Koning lab](http://lab.jasondk.io/).
+
+* Kevin Ha is a PhD student at the University of Toronto in the [Morris
+  lab](http://www.morrislab.ca/). Kevin's research focuses on 3'-end mRNA
+  processing and alternative splicing.
+
+* Nil Sahin is a PhD student at the University of Toronto in the
+  [Andrews](http://sites.utoronto.ca/andrewslab/) and
+  [Morris](http://www.morrislab.ca/) labs. Nil's research focuses on modelling
+  yeast microscopy images.
+
+* Ahmad Shah is a bioinformatician at the University of Toronto in the [Bader
+  lab](http://baderlab.org/). Ahmad's research focuses on identifying
+  regulatory regions and and exploring non-coding regions using machine
+  learning.
+
