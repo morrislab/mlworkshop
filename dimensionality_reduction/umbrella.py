@@ -17,7 +17,7 @@ class Umbrella:
         handle = np.column_stack((np.repeat(1, n // handle_thinner),
                                   np.repeat(1, n // handle_thinner),
                                   random.uniform(high=handle_length,
-                                                  size=n // handle_thinner)))
+                                                 size=n // handle_thinner)))
         self.matrix = np.row_stack((canopy, handle))
         self.handle_length = handle_length
         self.color = np.apply_along_axis(
@@ -34,3 +34,6 @@ class Umbrella:
 def test_umbrealla():
     umbrella = Umbrella(100)
     assert umbrella.matrix.shape == (110, 3)
+    from plotly.offline import init_notebook_mode
+    init_notebook_mode()
+    umbrella.plot()
