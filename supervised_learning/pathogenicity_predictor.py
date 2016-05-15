@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import vcf
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from functools import reduce
 
 import argparse
@@ -22,6 +22,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 
 def plot_line_graph(xvals, yvals, title, xtitle, ytitle, labels=None):
+  return
   colour_scale = 'RdYlBu'
   scatter = go.Scatter(
     x = xvals,
@@ -62,7 +63,7 @@ def make_variants(vcf_filename):
   cnt = 0
   for variant in vcfr:
     cnt += 1
-    if cnt > 1000 and False:
+    if cnt > 1500 and True:
       break
     var = {}
     clnsig = tuple(variant.INFO['CLNSIG'])
@@ -158,7 +159,7 @@ def vectorize_variants(variants):
   for clnsig, vars in variants.items():
     vectorized_vars[clnsig] = vectorizer.transform(vars)
 
-  return vectorized_vars
+  return (vectorized_vars, vectorizer.feature_names_)
 
 def predict(model, data):
   return model.predict_proba(data)[:,1]
@@ -230,7 +231,7 @@ def partition_into_training_and_test(vars, labels, training_proportion):
   return (vars[training_indices], vars[test_indices], labels[training_indices], labels[test_indices])
 
 def eval_performance(labels, pathogenicity_probs):
-  metrics = {}
+  metrics = OrderedDict()
   metrics['accuracy'] = sklearn.metrics.accuracy_score(labels, pathogenicity_probs >= 0.5)
   metrics['roc_auc'] = sklearn.metrics.roc_auc_score(labels, pathogenicity_probs)
   metrics['pr_auc'] = sklearn.metrics.average_precision_score(labels, pathogenicity_probs)
@@ -246,7 +247,7 @@ def eval_performance(labels, pathogenicity_probs):
     'FPR',
     'TPR'
   )
-  return
+  return metrics['accuracy']
   plot_line_graph(
     recall,
     precision,
@@ -254,8 +255,6 @@ def eval_performance(labels, pathogenicity_probs):
     'Recall',
     'Precision'
   )
-
-  return metrics['accuracy']
 
 def logmsg(msg, fd=sys.stdout):
   now = datetime.now()
