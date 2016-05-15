@@ -1,5 +1,1 @@
-Send e-mail about prereqs
-Record workshop
-Add Python intro
-Add brief explanation of what software packages we're using
-Contact helpers via e-mail
+Remove PyVCF dep to work on Windows
