@@ -50,6 +50,10 @@ If you're an advanced user who is not using Anaconda, install the following pack
 * [Nathan Bryans](http://nathanbryans.ca/) is a MSc student at the
   University of Calgary in the [de Koning lab](http://lab.jasondk.io/).
 
+* Te Chen is an undergraduate student at the University of Toronto in the
+  [Morris lab](http://www.morrislab.ca/). Te’s research focuses on
+  understanding stem cell development using statistical methods.
+
 * Chris Cremer is a PhD student at the University of Toronto in the [Morris
   lab](http://www.morrislab.ca/). Chris' research focuses on tumour
   deconvolution and protein structure prediction.
