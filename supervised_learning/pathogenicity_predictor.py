@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import vcf
 from collections import defaultdict, OrderedDict
 from functools import reduce
 
 import argparse
 import numpy as np
+import json
 
 import sklearn.feature_extraction
 import sklearn.linear_model
@@ -86,6 +86,12 @@ def make_variants(vcf_filename):
     variants[clnsig].append(var)
 
   return variants
+
+# Dump variants to JSON file to eliminate dependency on PyVCF, which requires
+# compiler for installation on Windows.
+def dump_variants(variants):
+  with open('variants.json', 'w') as varf:
+    json.dump(variants, varf)
 
 def assign_classes(variants):
   munged = {}
@@ -269,6 +275,9 @@ logmsg.last_log = None
 def main():
   #np.set_printoptions(threshold=np.nan)
   np.random.seed(1)
+  # Dependency on PyVCF eliminated for notebooks, so by default don't load
+  # unless running through main().
+  import vcf
 
   parser = argparse.ArgumentParser(
     description='Various classifiers to predict variant pathogenicity',
@@ -282,11 +291,10 @@ def main():
 
   logmsg('Vectorizing variants ...')
   variants = assign_classes(variants)
+  dump_variants(variants)
   print_feature_counts(variants)
   impute_missing(variants)
-  variants = vectorize_variants(variants)
-
-  evaluate_model(variants)
+  variants, feature_names = vectorize_variants(variants)
 
 if __name__ == '__main__':
   main()
