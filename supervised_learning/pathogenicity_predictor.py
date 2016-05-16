@@ -22,7 +22,6 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 
 def plot_line_graph(xvals, yvals, title, xtitle, ytitle, labels=None):
-  return
   colour_scale = 'RdYlBu'
   scatter = go.Scatter(
     x = xvals,
