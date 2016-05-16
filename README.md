@@ -54,9 +54,10 @@ If you're an advanced user who is not using Anaconda, install the following pack
   lab](http://www.morrislab.ca/). Chris' research focuses on tumour
   deconvolution and protein structure prediction.
 
-* Kevin Ha is a PhD student at the University of Toronto in the [Morris
-  lab](http://www.morrislab.ca/). Kevin's research focuses on 3'-end mRNA
-  processing and alternative splicing.
+* [Kevin Ha](http://kevinha.ca/) is a PhD student at the University of Toronto
+  in the [Morris](http://www.morrislab.ca/) and
+  [Biencowe](http://sites.utoronto.ca/intron/) labs. Kevin's research focuses
+  on 3'-end mRNA processing and alternative splicing.
 
 * Nil Sahin is a PhD student at the University of Toronto in the
   [Andrews](http://sites.utoronto.ca/andrewslab/) and
