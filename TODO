@@ -1,8 +1,5 @@
 Add Ivan's research to README
-Remove PyVCF dep to work on Windows
 Gradient descent from Ivan exercise
 Reverse left/right of clusters vs. timepoints graph
 Increase in v-measure with ground truth knowledge -- only tiny, so knowing ground truth doesn't help much because of poor data quality
 Add exercise for changing means to make clearly distinct clusters and seeing if you get "right" answer
-E-mail Belinda about snacks
-  Juice, water, coffee
