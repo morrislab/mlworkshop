@@ -5,6 +5,7 @@ from functools import reduce
 import argparse
 import numpy as np
 import json
+import gzip
 
 import sklearn.feature_extraction
 import sklearn.linear_model
@@ -260,6 +261,13 @@ def eval_performance(labels, pathogenicity_probs):
     'Recall',
     'Precision'
   )
+
+def prepare_variants(variants_fn):
+  with gzip.open(variants_fn, mode='rt', encoding='utf-8') as varf:
+    variants = json.load(varf)
+  impute_missing(variants)
+  variants, feature_names = vectorize_variants(variants)
+  return (variants, feature_names)
 
 def logmsg(msg, fd=sys.stdout):
   now = datetime.now()
