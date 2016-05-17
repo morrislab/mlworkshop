@@ -1,7 +1,6 @@
 Mention that under supervised learning, we have classification and regression
-Reverse left/right of clusters vs. timepoints graph
 Increase in v-measure with ground truth knowledge -- only tiny, so knowing ground truth doesn't help much because of poor data quality
-Fix the outlier slide
+Add material showing that, if we add more correctly labeled data, we still shift the line we fit in linear regression, which is silly for classification
 Note that the exact form of the logistic regression function doesn't matter -- it's just convenient
 
 Times:
