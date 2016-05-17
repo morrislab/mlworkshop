@@ -58,6 +58,10 @@ If you're an advanced user who is not using Anaconda, install the following pack
   lab](http://www.morrislab.ca/). Chris' research focuses on tumour
   deconvolution and protein structure prediction.
 
+* Florian Goebels is a postdoc at the University of Toronto in the [Bader
+  lab](http://baderlab.org/). Florian's research is on protein-protein
+  interactions.
+
 * [Kevin Ha](http://kevinha.ca/) is a PhD student at the University of Toronto
   in the [Morris](http://www.morrislab.ca/) and
   [Biencowe](http://sites.utoronto.ca/intron/) labs. Kevin's research focuses
