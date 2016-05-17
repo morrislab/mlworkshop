@@ -11,6 +11,13 @@ Each topic is presented in its own Jupyter notebook.
 2. [Dimensionality reduction](dimensionality_reduction/Dimensionality_reduction.ipynb)
 3. [Clustering](clustering/Clustering.ipynb)
 
+## Course slides
+
+Some slides are integrated into the Jupyter notebooks. External slides are available here:
+
+* [Supervised learning](https://docs.google.com/presentation/d/1lGOC6hJEfLCfUAJt0Vl9UXnehh5T2qjwuDjorSEEq2s/edit?usp=sharing)
+* [Clustering](https://docs.google.com/presentation/d/1P8DKR0PK3QJQaF4OyK7XHatYbrCnOfZzb-lRfvEmSRs/edit#slide=id.g1404f277c7_0_30)
+
 
 ## Prerequisites
 
