@@ -38,7 +38,9 @@ If you're an advanced user who is not using Anaconda, install the following pack
 ## Instructors
 
 * [Ivan Kryukov](https://twitter.com/i_krukov) is a PhD student at the
-  University of Calgary in the [de Koning lab](http://lab.jasondk.io/).
+  University of Calgary in the [de Koning lab](http://lab.jasondk.io/). Ivan's
+  research is on inferring patterns of selection using comparative and
+  population data.
 
 * [Jeff Wintersinger](http://jeff.wintersinger.org) is a PhD student at the
   University of Toronto in the [Morris lab](http://www.morrislab.ca/). Jeff's
