@@ -1,5 +1,12 @@
-Add Ivan's research to README
-Gradient descent from Ivan exercise
+Mention that under supervised learning, we have classification and regression
 Reverse left/right of clusters vs. timepoints graph
 Increase in v-measure with ground truth knowledge -- only tiny, so knowing ground truth doesn't help much because of poor data quality
-Add exercise for changing means to make clearly distinct clusters and seeing if you get "right" answer
+Fix the outlier slide
+Note that the exact form of the logistic regression function doesn't matter -- it's just convenient
+
+Times:
+  Intro: 30 mins
+  Supervised: 90 mins
+  Break: 20 minutes
+  DR: 30 mins
+  Clustering: 45 mins

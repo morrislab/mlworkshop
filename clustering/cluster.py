@@ -33,7 +33,7 @@ def plot_expression(cluster_alg, points, clusters, timepoints, labels):
     y = points[:,1],
     mode = 'markers',
     marker = {
-      'color': clusters,
+      'color': timepoints,
       'colorscale': colour_scale,
     },
     text = labels
@@ -43,14 +43,14 @@ def plot_expression(cluster_alg, points, clusters, timepoints, labels):
     y = points[:,1],
     mode = 'markers',
     marker = {
-      'color': timepoints,
+      'color': clusters,
       'colorscale': colour_scale,
     },
     text = labels
   )
   data = go.Data([scatter1, scatter2])
 
-  fig = pyt.make_subplots(rows=1, cols=2, subplot_titles=('Clusters', 'Timepoints'), print_grid=False)
+  fig = pyt.make_subplots(rows=1, cols=2, subplot_titles=('Timepoints', 'Clusters'), print_grid=False)
   fig.append_trace(scatter1, 1, 1)
   fig.append_trace(scatter2, 1, 2)
   n_clusters = len(set(clusters))
