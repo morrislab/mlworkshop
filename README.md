@@ -16,10 +16,14 @@ Each topic is presented in its own Jupyter notebook.
 
 ### Suggested installation
 
-To install Python and the associated packages necessary to use these notebooks,
-the easiest option is to use [Anaconda](https://www.continuum.io/downloads). We
-recommend using the most recent version, which is currently Anaconda for Python
-3.5.
+1. Install the [Anaconda Python
+   distribution](https://www.continuum.io/downloads). Use the Python 3.5
+   version.
+
+2. Install Plotly. On Mac, open Terminal through Finder. On Windows, open
+   Anaconda Prompt. Run this command:
+
+    pip install plotly
 
 ### Manual installation (advanced users)
 
