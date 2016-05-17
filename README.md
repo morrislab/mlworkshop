@@ -23,7 +23,7 @@ Each topic is presented in its own Jupyter notebook.
 2. Install Plotly. On Mac, open Terminal through Finder. On Windows, open
    Anaconda Prompt. Run this command:
 
-    pip install plotly
+         pip install plotly
 
 ### Manual installation (advanced users)
 
