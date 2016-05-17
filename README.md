@@ -15,6 +15,7 @@ Each topic is presented in its own Jupyter notebook.
 
 Some slides are integrated into the Jupyter notebooks. External slides are available here:
 
+* [Introduction](https://docs.google.com/presentation/d/1wExHUXRlmm1XavNTKQXQrTFfmGaQdR7E5RHRStV-AU8/edit?usp=sharing)
 * [Supervised learning](https://docs.google.com/presentation/d/1lGOC6hJEfLCfUAJt0Vl9UXnehh5T2qjwuDjorSEEq2s/edit?usp=sharing)
 * [Clustering](https://docs.google.com/presentation/d/1P8DKR0PK3QJQaF4OyK7XHatYbrCnOfZzb-lRfvEmSRs/edit#slide=id.g1404f277c7_0_30)
 
